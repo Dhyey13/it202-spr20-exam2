@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Dhyey Exam 2 Que 6</title>
+</head>
+<body>
+  <ul id="persons"></ul>
+</body>
+</html>
+
+<script type="text/javascript">
+  let createelement = (element) => {
+      return document.createElement(element);
+  }
+
+  let appendEl = (parent, el) => {
+    return parent.appendChild(el);
+  }
+
+  const ul = document.getElementById('persons');
+  const url = 'https://randomuser.me/api/?results=6&gender=male&nat=au,nz';
+  fetch(url)
+  .then((response) => response.json())
+  .then(function(data) {
+    let persons = data.results;
+    return persons.map(function(author,key) {
+      let li = createelement('li'),
+          img = createelement('img'),
+          h2 = createelement('h2');
+          span = createelement('span');
+          address = createelement('span');
+          anchor = createelement('a');
+      img.src = author.picture.thumbnail;
+      h2.innerHTML = 'Nationality & Email: ' + `${author.location.country} ${author.email}`;
+      span.innerHTML = 'Name: ' + `${author.name.title} ${author.name.first} ${author.name.last}`;
+      address.innerHTML = 'User ID: ' + `${author.login.username}`; 
+      address.innerHTML = '\nBirthdate: ' + `${author.dob.date}`;
+      anchor.setAttribute('id',"icon-"+key);
+      anchor.setAttribute('target',"_blank");
+      anchor.setAttribute('href',author.picture.large);
+      anchor.innerHTML = '<i class="fa fa-ellipsis-v"></i>clickme';
+      appendEl(li, h2);
+      appendEl(li, span);
+      appendEl(li, address);
+      appendEl(li, address);
+      appendEl(li, img);
+      appendEl(li, anchor);
+      appendEl(ul, li);
+    })
+  })
+  .catch(function(error) {
+    console.log(JSON.stringify(error));
+  });  
+</script>
